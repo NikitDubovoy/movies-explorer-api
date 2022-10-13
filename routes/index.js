@@ -6,6 +6,7 @@ const userRouter = require('./users');
 const movieRouter = require('./movies');
 const auth = require('../middlewares/auth');
 Joi.objectId = require('joi-objectid')(Joi);
+const IsNotFound = require('../errors/IsNotFound');
 
 const { createdUser, login } = require('../controllers/users');
 
@@ -28,7 +29,7 @@ router.use(auth, express.json());
 router.use('/users', userRouter);
 router.use('/movies', movieRouter);
 router.use((req, res, next) => {
-  next('Ошибка странциа не найдена');
+  next(new IsNotFound('Страница не найдена'));
 });
 
 module.exports = router;
