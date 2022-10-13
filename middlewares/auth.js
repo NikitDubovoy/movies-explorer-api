@@ -6,7 +6,7 @@ const InvalidAuth = require('../errors/InvalidAuth');
 const auth = (req, res, next) => {
   const token = req.cookies.jwt;
   if (!token) {
-    next();
+    next(new InvalidAuth('Ошибка авторизации'));
   } else {
     let payload;
     try {
