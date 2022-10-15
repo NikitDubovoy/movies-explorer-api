@@ -1,12 +1,17 @@
 const express = require('express');
-const { Joi } = require('celebrate');
+const { Joi, celebrate } = require('celebrate');
 Joi.objectId = require('joi-objectid')(Joi);
 
 const router = express.Router();
 const { logout, getUser, updateUser } = require('../controllers/users');
 
-router.post('/logout', express.json(), logout);
-router.post('/me', express.json(), getUser);
-router.patch('/me', express.json(), updateUser);
+router.post('/signout', express.json(), logout);
+router.get('/me', express.json(), getUser);
+router.patch('/me', express.json(), celebrate({
+  body: Joi.object().keys({
+    name: Joi.string().required().min(2).max(30),
+    email: Joi.string().required().pattern(/^[A-Za-z0-9][A-Za-z0-9.\-_]*[A-Za-z0-9]*@([A-Za-z0-9]+([A-Za-z0-9-]*[A-Za-z0-9]+)*\.)+[A-Za-z]*$/),
+  }),
+}), updateUser);
 
 module.exports = router;

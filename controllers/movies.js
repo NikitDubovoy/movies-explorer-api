@@ -34,16 +34,16 @@ const createdMovie = (req, res, next) => {
     nameEN,
   })
     .then((movie) => res.status(200).send(movie))
-    .catch(() => next(new IsCastError('Ошибка добавления фильма')));
+    .catch((err) => next(new IsCastError(`${err.message} Ошибка при дабовлении фильма`)));
 };
 
 const removeMovie = (req, res, next) => {
   const { movieId } = req.params;
   Movie.findById({ _id: movieId })
-    .orFail(() => next(new IsNotFound('Карточка не найдена')))
+    .orFail(() => next(new IsNotFound('Фильм не найден')))
     .then((movie) => {
       if (!movie.owner.equals(req.user._id)) {
-        next(new AccessError('Карточка не была создана текущим пользователем'));
+        next(new AccessError('Фильм не был добавлен текущим пользователем'));
         return;
       }
       movie.remove()

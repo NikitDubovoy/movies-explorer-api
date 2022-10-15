@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 const InvalidAuth = require('../errors/InvalidAuth');
@@ -12,7 +13,7 @@ const auth = (req, res, next) => {
     try {
       payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');
     } catch (e) {
-      next(new InvalidAuth('Необходимо авторизироваться'));
+      throw new InvalidAuth('Необходимо авторизироваться');
     }
     req.user = payload;
     next();

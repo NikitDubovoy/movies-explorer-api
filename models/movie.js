@@ -18,7 +18,7 @@ const movieSchema = new mongoose.Schema({
   },
   // год выпуска фильма
   year: {
-    type: Number,
+    type: String,
     require: true,
   },
   // описание фильма
@@ -51,7 +51,7 @@ const movieSchema = new mongoose.Schema({
   },
   // id фильма, который содержится в ответе сервиса MoviesExplorer
   movieId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Number,
     require: true,
   },
   // название фильма на русском языке

@@ -33,7 +33,7 @@ const createdUser = (req, res, next) => {
 const login = (req, res, next) => {
   const { email, password } = req.body;
   User.findOne({ email }).select('+password')
-    .orFail(() => next(new InvalidAuth('Неверный логин или пароль')))
+    .orFail(() => new InvalidAuth('Неверный логин или пароль'))
     .then((user) => {
       bcrypt.compare(password, user.password)
         .then((isUserValid) => {
@@ -56,9 +56,8 @@ const login = (req, res, next) => {
     .catch(next);
 };
 
-const logout = (req, res, next) => {
+const logout = (req, res) => {
   res.clearCookie('jwt').send({ message: 'Успешный выход' });
-  next();
 };
 
 const updateUser = (req, res, next) => {
@@ -68,6 +67,10 @@ const updateUser = (req, res, next) => {
     .then((user) => {
       if (!user) {
         next(new IsNotFound('Пользователь не найден'));
+        return;
+      }
+      if (user.name === name || user.email === email) {
+        next(new IsCastError('Введенные данные идентичны исходным'));
         return;
       }
       res.status(200).send(user);
