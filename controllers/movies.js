@@ -1,5 +1,5 @@
 const Movie = require('../models/movie');
-const IsCastError = require('../errors/IsCastError');
+/* const IsCastError = require('../errors/IsCastError'); */
 const IsNotFound = require('../errors/IsNotFound');
 const IsServerError = require('../errors/IsServerError');
 const AccessError = require('../errors/AccessError');
@@ -34,7 +34,7 @@ const createdMovie = (req, res, next) => {
     nameEN,
   })
     .then((movie) => res.status(200).send(movie))
-    .catch((err) => next(new IsCastError(`${err.message} Ошибка при дабовлении фильма`)));
+    .catch((err) => next(err));
 };
 
 const removeMovie = (req, res, next) => {

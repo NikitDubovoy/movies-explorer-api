@@ -63,17 +63,21 @@ const logout = (req, res) => {
 const updateUser = (req, res, next) => {
   const { email, name } = req.body;
   const { _id } = req.user;
-  User.findByIdAndUpdate(_id, { email, name }, { new: true, runValidators: true })
-    .then((user) => {
-      if (!user) {
-        next(new IsNotFound('Пользователь не найден'));
-        return;
+  User.findOne({ email })
+    .then((users) => {
+      if (!users) {
+        User.findByIdAndUpdate(_id, { email, name }, { runValidators: true })
+          .then((user) => {
+            if (!user) {
+              next(new IsNotFound('Пользователь не найден'));
+              return;
+            }
+            res.status(200).send(user);
+          })
+          .catch(() => next(new IsServerError('Ошибка сервера')));
+      } else {
+        next(new InvalidAuth('Такой email уже существует'));
       }
-      if (user.name === name || user.email === email) {
-        next(new IsCastError('Введенные данные идентичны исходным'));
-        return;
-      }
-      res.status(200).send(user);
     })
     .catch(() => next(new IsServerError('Ошибка сервера')));
 };

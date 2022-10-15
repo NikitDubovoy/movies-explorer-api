@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-const { PORT, MONGO_URL } = process.env;
+const { PORT, MONGO_URL, NODE_ENV } = process.env;
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
 const cors = require('cors');
@@ -13,7 +13,7 @@ const IsServerError = require('./errors/IsServerError');
 
 const app = express();
 
-mongoose.connect(MONGO_URL, {
+mongoose.connect(NODE_ENV === 'production' ? MONGO_URL : 'mongodb://localhost:27017/moviesdb', {
   useNewUrlParser: true,
   useUnifiedTopology: false,
 });
