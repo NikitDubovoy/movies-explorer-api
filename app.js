@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-const { PORT, MONGO_URL, NODE_ENV } = process.env;
+const { PORT = 3001, MONGO_URL, NODE_ENV } = process.env;
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
 const cors = require('cors');
