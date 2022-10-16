@@ -8,7 +8,7 @@ const auth = require('../middlewares/auth');
 Joi.objectId = require('joi-objectid')(Joi);
 const IsNotFound = require('../errors/IsNotFound');
 
-const { createdUser, login } = require('../controllers/users');
+const { createdUser, login, logout } = require('../controllers/users');
 
 router.post('/signin', express.json(), celebrate({
   body: Joi.object().keys({
@@ -24,6 +24,8 @@ router.post('/signup', express.json(), celebrate({
     name: Joi.string().min(2).max(30).required(),
   }),
 }), createdUser);
+
+router.post('/signout', express.json(), logout);
 
 router.use(auth, express.json());
 router.use('/users', userRouter);

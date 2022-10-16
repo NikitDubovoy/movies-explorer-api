@@ -3,9 +3,8 @@ const { Joi, celebrate } = require('celebrate');
 Joi.objectId = require('joi-objectid')(Joi);
 
 const router = express.Router();
-const { logout, getUser, updateUser } = require('../controllers/users');
+const { getUser, updateUser } = require('../controllers/users');
 
-router.post('/signout', express.json(), logout);
 router.get('/me', express.json(), getUser);
 router.patch('/me', express.json(), celebrate({
   body: Joi.object().keys({
