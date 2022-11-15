@@ -21,7 +21,7 @@ mongoose.connect(
   }
 );
 
-/* app.use(
+app.use(
   cors({
     origin: [
       "http://localhost:3000",
@@ -31,7 +31,7 @@ mongoose.connect(
     ],
     credentials: true,
   })
-); */
+);
 app.get("/crash-test", () => {
   setTimeout(() => {
     throw new Error("Сервер сейчас упадёт");
