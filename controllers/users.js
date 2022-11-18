@@ -71,19 +71,19 @@ const updateUser = (req, res, next) => {
   const { _id } = req.user;
   User.findOne({ email })
     .then((users) => {
-      if (!users) {
-        User.findByIdAndUpdate(_id, { email, name }, { runValidators: true })
-          .then((user) => {
-            if (!user) {
-              next(new IsNotFound("Пользователь не найден"));
-              return;
-            }
-            res.status(200).send(user);
-          })
-          .catch(() => next(new IsServerError("Ошибка сервера")));
-      } else {
+      /*       if (!users) { */
+      User.findByIdAndUpdate(_id, { email, name }, { runValidators: true })
+        .then((user) => {
+          if (!user) {
+            next(new IsNotFound("Пользователь не найден"));
+            return;
+          }
+          res.status(200).send(user);
+        })
+        .catch(() => next(new IsServerError("Ошибка сервера")));
+      /*       } else {
         next(new InvalidAuth("Такой email уже существует"));
-      }
+      } */
     })
     .catch(() => next(new IsServerError("Ошибка сервера")));
 };
