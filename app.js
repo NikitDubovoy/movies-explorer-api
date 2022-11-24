@@ -27,7 +27,7 @@ app.use(
       "http://localhost:3000",
       "https://localhost:3000",
       "http://movies2.nomoredomains.icu",
-      "https://movies2.nomoredomains.icu",
+      "https://movies2.nomoredomains.icu/",
     ],
     credentials: true,
   })
